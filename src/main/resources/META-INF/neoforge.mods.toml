@@ -8,6 +8,7 @@ namespace="reflux_storage"
 version="1.0.0"
 displayName="Reflux Storage"
 description="A portable reflux tank that charges while carried, stores pressure, and launches you upward with configurable burp power. Optional Curios support lets it work from belt and charm slots."
+displayURL="https://github.com/abensur/reflux-storage"
 authors="Abe"
 credits="Built with NeoForge 1.21.1"
 
