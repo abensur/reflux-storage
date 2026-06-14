@@ -1,0 +1,18 @@
+{
+  "burp_weak": {
+    "sounds": ["reflux_storage:reflux_storage/burp_weak"],
+    "subtitle": "subtitles.reflux_storage.burp_weak"
+  },
+  "burp_medium": {
+    "sounds": ["reflux_storage:reflux_storage/burp_medium"],
+    "subtitle": "subtitles.reflux_storage.burp_medium"
+  },
+  "burp_strong": {
+    "sounds": ["reflux_storage:reflux_storage/burp_strong"],
+    "subtitle": "subtitles.reflux_storage.burp_strong"
+  },
+  "empty": {
+    "sounds": ["reflux_storage:reflux_storage/empty"],
+    "subtitle": "subtitles.reflux_storage.empty"
+  }
+}

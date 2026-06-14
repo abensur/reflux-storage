@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FSF",
+    "FSF",
+    "FBF"
+  ],
+  "key": {
+    "F": {
+      "item": "minecraft:rotten_flesh"
+    },
+    "S": {
+      "item": "minecraft:sugar"
+    },
+    "B": {
+      "item": "minecraft:bucket"
+    }
+  },
+  "result": {
+    "id": "reflux_storage:reflux_storage",
+    "count": 1
+  }
+}

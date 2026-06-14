@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "reflux_storage:item/reflux_storage_0"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "reflux_storage:stored": 0.25
+      },
+      "model": "reflux_storage:item/reflux_storage_25"
+    },
+    {
+      "predicate": {
+        "reflux_storage:stored": 0.5
+      },
+      "model": "reflux_storage:item/reflux_storage_50"
+    },
+    {
+      "predicate": {
+        "reflux_storage:stored": 0.75
+      },
+      "model": "reflux_storage:item/reflux_storage_75"
+    },
+    {
+      "predicate": {
+        "reflux_storage:stored": 1.0
+      },
+      "model": "reflux_storage:item/reflux_storage_100"
+    }
+  ]
+}

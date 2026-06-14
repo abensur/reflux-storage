@@ -1,0 +1,17 @@
+{
+  "itemGroup.reflux_storage": "Reflux Storage",
+  "item.reflux_storage.reflux_storage": "Reflux Storage",
+  "key.categories.reflux_storage": "Reflux Storage",
+  "key.reflux_storage.use_reflux_storage": "Use Reflux Storage",
+  "key.reflux_storage.adjust_burp_power": "Adjust Burp Power",
+  "tooltip.reflux_storage.stored": "Reflux: %s / %s mB",
+  "tooltip.reflux_storage.power": "Burp Power: %s (%s mB)",
+  "tooltip.reflux_storage.controls": "Right-click or set a hotkey to burp jump. Sneak + scroll while holding, or set a hotkey to increase burp power (hotkey + shift to decrease).",
+  "message.reflux_storage.burp": "Burp power %s consumed %s mB",
+  "message.reflux_storage.not_enough": "Not enough reflux: %s / %s mB",
+  "message.reflux_storage.power": "Burp Power: %s",
+  "subtitles.reflux_storage.burp_weak": "Reflux Storage burps softly",
+  "subtitles.reflux_storage.burp_medium": "Reflux Storage burps",
+  "subtitles.reflux_storage.burp_strong": "Reflux Storage erupts",
+  "subtitles.reflux_storage.empty": "Reflux Storage wheezes"
+}

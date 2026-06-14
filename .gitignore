@@ -1,0 +1,32 @@
+# Gradle
+.gradle/
+build/
+gradle-build-cache/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.eclipse
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Minecraft-specific
+run/
+eclipseworkspace/
+
+# Other
+*.log
+
+# NeoGradle run directory (game instance, worlds, logs)
+runs/
+auditions/
+dist/
+
+# Curios dev-runtime mixin configs (unpacked at build)
+curios*.mixins.json
+
