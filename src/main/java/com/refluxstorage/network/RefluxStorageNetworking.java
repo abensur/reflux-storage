@@ -1,33 +1,63 @@
 package com.refluxstorage.network;
 
+import com.refluxstorage.RefluxStorage;
 import com.refluxstorage.compat.curios.RefluxStorageCuriosCompat;
 import com.refluxstorage.item.RefluxStorageItem;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.fml.ModList;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
 
 public class RefluxStorageNetworking {
-    public static void register(RegisterPayloadHandlersEvent event) {
-        PayloadRegistrar registrar = event.registrar("1");
-        registrar.playToServer(AdjustPowerPayload.TYPE, AdjustPowerPayload.STREAM_CODEC, RefluxStorageNetworking::handleAdjustPower);
-        registrar.playToServer(UseRefluxStoragePayload.TYPE, UseRefluxStoragePayload.STREAM_CODEC, RefluxStorageNetworking::handleUseRefluxStorage);
+    private static final String PROTOCOL_VERSION = "1";
+    private static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
+        new ResourceLocation(RefluxStorage.MOD_ID, "main"),
+        () -> PROTOCOL_VERSION,
+        PROTOCOL_VERSION::equals,
+        PROTOCOL_VERSION::equals);
+
+    private static int packetId;
+
+    public static void register() {
+        CHANNEL.messageBuilder(AdjustPowerPayload.class, packetId++, NetworkDirection.PLAY_TO_SERVER)
+            .encoder(AdjustPowerPayload::encode)
+            .decoder(AdjustPowerPayload::decode)
+            .consumerMainThread(AdjustPowerPayload::handle)
+            .add();
+        CHANNEL.messageBuilder(UseRefluxStoragePayload.class, packetId++, NetworkDirection.PLAY_TO_SERVER)
+            .encoder(UseRefluxStoragePayload::encode)
+            .decoder(UseRefluxStoragePayload::decode)
+            .consumerMainThread(UseRefluxStoragePayload::handle)
+            .add();
     }
 
-    private static void handleUseRefluxStorage(UseRefluxStoragePayload payload, net.neoforged.neoforge.network.handling.IPayloadContext context) {
-        Player player = context.player();
+    public static void sendToServer(Object payload) {
+        CHANNEL.sendToServer(payload);
+    }
+
+    static void handleUseRefluxStorage(UseRefluxStoragePayload payload, NetworkEvent.Context context) {
+        Player player = context.getSender();
+        if (player == null) {
+            return;
+        }
         ItemStack stack = findAccessibleRefluxStorage(player);
         if (!stack.isEmpty()) {
             RefluxStorageItem.useFromStack(stack, player.level(), player);
         }
     }
 
-    private static void handleAdjustPower(AdjustPowerPayload payload, net.neoforged.neoforge.network.handling.IPayloadContext context) {
-        Player player = context.player();
+    static void handleAdjustPower(AdjustPowerPayload payload, NetworkEvent.Context context) {
+        Player player = context.getSender();
+        if (player == null) {
+            return;
+        }
         ItemStack stack = findAccessibleRefluxStorage(player);
         if (stack.isEmpty()) {
             return;

@@ -1,9 +1,10 @@
 package com.refluxstorage.item;
 
-import com.refluxstorage.component.RefluxStorageComponents;
 import com.refluxstorage.sound.RefluxStorageSounds;
 import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -18,6 +19,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 public class RefluxStorageItem extends Item {
+    private static final String STORED_MB_TAG = "StoredMb";
+    private static final String BURP_POWER_TAG = "BurpPower";
+
     public static final int CAPACITY_MB = 8000;
     public static final int CHARGE_PER_SECOND_MB = 25;
     public static final int COST_PER_POWER_MB = 100;
@@ -34,19 +38,21 @@ public class RefluxStorageItem extends Item {
     }
 
     public static int getStoredMb(ItemStack stack) {
-        return Mth.clamp(stack.getOrDefault(RefluxStorageComponents.STORED_MB.get(), 0), 0, CAPACITY_MB);
+        CompoundTag tag = stack.getTag();
+        return Mth.clamp(tag == null ? 0 : tag.getInt(STORED_MB_TAG), 0, CAPACITY_MB);
     }
 
     public static void setStoredMb(ItemStack stack, int storedMb) {
-        stack.set(RefluxStorageComponents.STORED_MB.get(), Mth.clamp(storedMb, 0, CAPACITY_MB));
+        stack.getOrCreateTag().putInt(STORED_MB_TAG, Mth.clamp(storedMb, 0, CAPACITY_MB));
     }
 
     public static int getBurpPower(ItemStack stack) {
-        return Mth.clamp(stack.getOrDefault(RefluxStorageComponents.BURP_POWER.get(), DEFAULT_POWER), MIN_POWER, MAX_POWER);
+        CompoundTag tag = stack.getTag();
+        return Mth.clamp(tag == null || !tag.contains(BURP_POWER_TAG) ? DEFAULT_POWER : tag.getInt(BURP_POWER_TAG), MIN_POWER, MAX_POWER);
     }
 
     public static void setBurpPower(ItemStack stack, int power) {
-        stack.set(RefluxStorageComponents.BURP_POWER.get(), Mth.clamp(power, MIN_POWER, MAX_POWER));
+        stack.getOrCreateTag().putInt(BURP_POWER_TAG, Mth.clamp(power, MIN_POWER, MAX_POWER));
     }
 
     public static boolean adjustBurpPower(ItemStack stack, int delta) {
@@ -160,7 +166,7 @@ public class RefluxStorageItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.reflux_storage.stored", getStoredMb(stack), CAPACITY_MB)
             .withStyle(ChatFormatting.AQUA));
         tooltip.add(Component.translatable("tooltip.reflux_storage.power", getBurpPower(stack), getBurpPower(stack) * COST_PER_POWER_MB)

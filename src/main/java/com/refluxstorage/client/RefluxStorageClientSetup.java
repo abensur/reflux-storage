@@ -5,11 +5,11 @@ import com.refluxstorage.item.RefluxStorageItem;
 import com.refluxstorage.item.RefluxStorageItems;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @EventBusSubscriber(modid = RefluxStorage.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class RefluxStorageClientSetup {
@@ -17,7 +17,7 @@ public class RefluxStorageClientSetup {
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> ItemProperties.register(
             RefluxStorageItems.REFLUX_STORAGE.get(),
-            ResourceLocation.fromNamespaceAndPath(RefluxStorage.MOD_ID, "stored"),
+            new ResourceLocation(RefluxStorage.MOD_ID, "stored"),
             (stack, level, entity, seed) -> (float) RefluxStorageItem.getStoredMb(stack) / RefluxStorageItem.CAPACITY_MB));
     }
 

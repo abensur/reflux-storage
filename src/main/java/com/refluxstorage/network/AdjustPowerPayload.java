@@ -1,23 +1,21 @@
 package com.refluxstorage.network;
 
-import com.refluxstorage.RefluxStorage;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import java.util.function.Supplier;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
-public record AdjustPowerPayload(int delta) implements CustomPacketPayload {
-    public static final CustomPacketPayload.Type<AdjustPowerPayload> TYPE =
-        new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(RefluxStorage.MOD_ID, "adjust_power"));
+public record AdjustPowerPayload(int delta) {
+    public static void encode(AdjustPowerPayload payload, FriendlyByteBuf buffer) {
+        buffer.writeVarInt(payload.delta());
+    }
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, AdjustPowerPayload> STREAM_CODEC = StreamCodec.composite(
-        ByteBufCodecs.VAR_INT,
-        AdjustPowerPayload::delta,
-        AdjustPowerPayload::new);
+    public static AdjustPowerPayload decode(FriendlyByteBuf buffer) {
+        return new AdjustPowerPayload(buffer.readVarInt());
+    }
 
-    @Override
-    public Type<? extends CustomPacketPayload> type() {
-        return TYPE;
+    public static void handle(AdjustPowerPayload payload, Supplier<NetworkEvent.Context> contextSupplier) {
+        NetworkEvent.Context context = contextSupplier.get();
+        context.enqueueWork(() -> RefluxStorageNetworking.handleAdjustPower(payload, context));
+        context.setPacketHandled(true);
     }
 }

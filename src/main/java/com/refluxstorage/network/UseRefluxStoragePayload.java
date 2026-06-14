@@ -1,21 +1,22 @@
 package com.refluxstorage.network;
 
-import com.refluxstorage.RefluxStorage;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import java.util.function.Supplier;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
-public record UseRefluxStoragePayload() implements CustomPacketPayload {
+public record UseRefluxStoragePayload() {
     public static final UseRefluxStoragePayload INSTANCE = new UseRefluxStoragePayload();
 
-    public static final CustomPacketPayload.Type<UseRefluxStoragePayload> TYPE =
-        new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(RefluxStorage.MOD_ID, "use_reflux_storage"));
+    public static void encode(UseRefluxStoragePayload payload, FriendlyByteBuf buffer) {
+    }
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, UseRefluxStoragePayload> STREAM_CODEC = StreamCodec.unit(INSTANCE);
+    public static UseRefluxStoragePayload decode(FriendlyByteBuf buffer) {
+        return INSTANCE;
+    }
 
-    @Override
-    public Type<? extends CustomPacketPayload> type() {
-        return TYPE;
+    public static void handle(UseRefluxStoragePayload payload, Supplier<NetworkEvent.Context> contextSupplier) {
+        NetworkEvent.Context context = contextSupplier.get();
+        context.enqueueWork(() -> RefluxStorageNetworking.handleUseRefluxStorage(payload, context));
+        context.setPacketHandled(true);
     }
 }

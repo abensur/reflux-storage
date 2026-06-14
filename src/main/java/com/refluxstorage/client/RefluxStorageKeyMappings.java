@@ -3,8 +3,8 @@ package com.refluxstorage.client;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.refluxstorage.RefluxStorage;
 import net.minecraft.client.KeyMapping;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import net.neoforged.neoforge.client.settings.KeyConflictContext;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.settings.KeyConflictContext;
 
 public class RefluxStorageKeyMappings {
     public static final String CATEGORY = "key.categories." + RefluxStorage.MOD_ID;

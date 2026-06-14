@@ -1,33 +1,33 @@
 modLoader="javafml"
-loaderVersion="[1,)"
+loaderVersion="[47,)"
 license="MIT"
 
 [[mods]]
 modId="reflux_storage"
-namespace="reflux_storage"
 version="1.0.0"
 displayName="Reflux Storage"
 description="A portable reflux tank that charges while carried, stores pressure, and launches you upward with configurable burp power. Optional Curios support lets it work from belt and charm slots."
+displayURL="https://github.com/abensur/reflux-storage"
 authors="Abe"
-credits="Built with NeoForge 1.21.1"
+credits="Built with Forge 1.20.1"
 
 [[dependencies.reflux_storage]]
-modId="neoforge"
-type="required"
-versionRange="[21.1,)"
+modId="forge"
+mandatory=true
+versionRange="[47,)"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.reflux_storage]]
 modId="minecraft"
-type="required"
-versionRange="[1.21.1,1.22)"
+mandatory=true
+versionRange="[1.20.1,1.21)"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.reflux_storage]]
 modId="curios"
-type="optional"
-versionRange="[9.5.1,)"
+mandatory=false
+versionRange="[5.14.1,)"
 ordering="AFTER"
 side="BOTH"

@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    id("net.neoforged.gradle.userdev") version "7.1.37"
+    id("net.minecraftforge.gradle") version "6.0.35"
 }
 
 base {
@@ -9,22 +9,31 @@ base {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 minecraft {
-    accessTransformers.file("src/main/resources/META-INF/accesstransformer.cfg")
-}
+    mappings("official", project.properties["minecraft_version"].toString())
 
-runs {
-    create("client") {
-        modSource(project.sourceSets.getByName("main"))
-        systemProperty("forge.logging.console.level", "info")
-    }
-    create("server") {
-        modSource(project.sourceSets.getByName("main"))
-        programArgument("--nogui")
+    runs {
+        configureEach {
+            workingDirectory(project.file("runs"))
+            property("forge.logging.console.level", "info")
+
+            mods {
+                create(project.properties["mod_id"].toString()) {
+                    source(sourceSets.main.get())
+                }
+            }
+        }
+
+        create("client")
+        create("server") {
+            args("--nogui")
+        }
     }
 }
 
@@ -32,22 +41,23 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven {
-        name = "NeoForged"
-        url = uri("https://maven.neoforged.net/releases")
+        name = "Forge"
+        url = uri("https://maven.minecraftforge.net/")
     }
     maven {
-        name = "Illusive Soulworks"
-        url = uri("https://maven.theillusivec4.top/")
+        name = "Modrinth"
+        url = uri("https://api.modrinth.com/maven")
     }
 }
 
 dependencies {
-    implementation("net.neoforged:neoforge:${project.properties["neoforge_version"]}")
-    compileOnly("top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1:api")
-    runtimeOnly("top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1")
+    minecraft("net.minecraftforge:forge:${project.properties["minecraft_version"]}-${project.properties["forge_version"]}")
+
+    compileOnly(fg.deobf("maven.modrinth:curios:${project.properties["curios_version"]}"))
+    runtimeOnly(fg.deobf("maven.modrinth:curios:${project.properties["curios_version"]}"))
 }
 
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
-    options.release.set(21)
+    options.release.set(17)
 }
