@@ -10,6 +10,7 @@ Update the version/links before each release.
 | File | Use |
 |------|-----|
 | `icon.png` (512x512) | Project icon / logo (CurseForge & Modrinth both accept square PNG) |
+| `publishing/reflux-storage-states.png` (1376x370) | Side-by-side charge-state showcase image for galleries/screenshots |
 
 ---
 
@@ -112,10 +113,10 @@ rotten_flesh  bucket rotten_flesh
 
 ## Pre-release checklist
 
-- [ ] Bump `mod_version` in `gradle.properties` and the version in `neoforge.mods.toml`
-- [ ] `./gradlew clean build` -> grab the jar from `build/libs/`
-- [ ] Test the jar in a real instance without Curios
-- [ ] Test the jar in a real instance with Curios installed
-- [ ] Upload `icon.png` as the project icon
-- [ ] Set Curios as an optional dependency
-- [ ] Tag the Minecraft version (1.21.1) and loader (NeoForge)
+- [x] Bump `mod_version` in `gradle.properties` and the version in `neoforge.mods.toml`
+- [x] `./gradlew clean build` -> grab the jar from `build/libs/`
+- [x] Test the jar in a real instance without Curios
+- [x] Test the jar in a real instance with Curios installed
+- [x] Upload `icon.png` as the project icon
+- [x] Set Curios as an optional dependency
+- [x] Tag the Minecraft version (1.21.1) and loader (NeoForge)
